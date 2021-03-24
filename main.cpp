@@ -11,8 +11,8 @@ class Allocator
 public:
     char *dan;
     char *mem;
-    int maxSize_;
-    int size_;
+    size_t maxSize_;
+    size_t size_;
     void makeAllocator(size_t maxSize)
     {
         maxSize_ = maxSize;
