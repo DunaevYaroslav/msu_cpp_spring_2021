@@ -11,29 +11,35 @@ class Allocator
 public:
     char *dan;
     char *mem;
+    int offset;
     size_t maxSize_;
     size_t size_;
     void makeAllocator(size_t maxSize)
     {
         maxSize_ = maxSize;
         dan = new char[sizeof(size_t) * (maxSize)];
+        offset = 0;
     }
     char *alloc(size_t size)
     {
         size_ = size;
-        if (size > maxSize_)
+        if (size + offset > maxSize_)
         {
             return nullptr;
         }
         else
         {
-            mem = (char *)realloc(dan, size);
+            mem = new char[sizeof(size_t) * (size)];
+            for (int i = 0; i < size; i++)
+            {
+                mem[i] = dan[offset + i];
+            }
         }
         return mem;
     }
     void reset()
     {
-        delete[] dan;
+        offset = 0;
     }
 };
 
