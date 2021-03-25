@@ -15,3 +15,4 @@ clean:
 	rm -f *.o $(EXECUTABLE)
 test:
 	./$(EXECUTABLE)
+	

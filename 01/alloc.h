@@ -9,26 +9,37 @@ private:
     bool f;
 
 public:
-    Allocator() : alloc_(nullptr), offset_(0), size_(0), f(false) {
+    Allocator() : alloc_(nullptr), offset_(0), size_(0), f(false)
+    {
     }
-        void makeAllocator(size_t maxSize) {
-        if (alloc_ != nullptr) {
-            if (maxSize > size_) {
+    void makeAllocator(size_t maxSize)
+    {
+        if (alloc_ != nullptr)
+        {
+            if (maxSize > size_)
+            {
                 f = true;
-            } else {
+            }
+            else
+            {
                 offset_ = 0;
                 size_ = maxSize;
             }
-        } else {
+        }
+        else
+        {
             alloc_ = new char[maxSize];
             size_ = maxSize;
         }
     }
-        char* alloc(size_t size) {
-        if (f) {
+    char *alloc(size_t size)
+    {
+        if (f)
+        {
             return nullptr;
         }
-        if (offset_ + size > size_) {
+        if (offset_ + size > size_)
+        {
             return nullptr;
         }
         offset_ += size;
@@ -38,7 +49,8 @@ public:
     {
         offset_ = 0;
     }
-    ~Allocator() {
-        delete [] alloc_;
+    ~Allocator()
+    {
+        delete[] alloc_;
     }
 };
