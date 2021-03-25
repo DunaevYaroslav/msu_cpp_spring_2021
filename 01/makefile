@@ -1,5 +1,17 @@
 CC=g++
-FLAGS=-std=c++17 -Wall -Wextra -Wno-unused-variable
-all: my_prog
-my_prog: main.cpp 
-	$(CC) $(FLAGS) -c main.cpp
+CFLAGS=--std=c++17 -c -Wall -O2
+LDFLAGS=
+SOURCES=tests.cpp 
+OBJECTS=$(SOURCES:.cpp=.o)
+EXECUTABLE=tests
+all: $(SOURCES) $(EXECUTABLE)
+	
+$(EXECUTABLE): $(OBJECTS) 
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
+clean: 
+	rm -f *.o $(EXECUTABLE)
+test:
+	./$(EXECUTABLE)
