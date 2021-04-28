@@ -1,18 +1,18 @@
 CC=g++
-CFLAGS=--std=c++17 -c -O2
-LDFLAGS=
-SOURCES=main.cpp 
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=main
-all: $(SOURCES) $(EXECUTABLE)
-	
-$(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+FLAGS=-std=c++17 -Wall -Werror -fsanitize=address -Wextra
 
-.cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
-clean: 
-	rm -f *.o $(EXECUTABLE)
-test:
-	./$(EXECUTABLE)
-	
+all: main.o matrix.o
+	$(CC) $(FLAGS) main.o matrix.o -o main
+
+main.o: main.cpp
+	$(CC) $(FLAGS) main.cpp -c
+
+matrix.o: matrix.h matrix.cpp
+	$(CC) $(FLAGS) matrix.cpp -c
+
+test: main.o matrix.o
+	$(CC) $(FLAGS) main.o matrix.o -o test
+	./test
+
+clean:
+	rm -f *.o main
