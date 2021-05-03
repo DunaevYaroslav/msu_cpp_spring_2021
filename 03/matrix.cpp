@@ -72,7 +72,7 @@
         return columns_;
     };
 
-    Matrix& Matrix::operator =(Matrix m)
+    Matrix& Matrix::operator =(const Matrix m)
     {
         if (m.getRows() != rows_ || m.getColumns() != columns_) {
             for (size_t i = 0; i < rows_; i++) {
