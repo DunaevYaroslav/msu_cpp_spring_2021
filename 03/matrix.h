@@ -31,7 +31,7 @@ public:
 
     size_t getColumns() const;
 
-    Matrix &operator =(Matrix m);
+    Matrix &operator =(const Matrix m);
 
     Matrix &operator *=(int a);
 
