@@ -1,3 +1,4 @@
+#pragma once
 #include <cstdlib>
 #include <string>
 #include <iomanip>
@@ -8,7 +9,7 @@ public:
     int *num_;
     bool pos_;
     int size_;
-    BigInt(): num_(nullptr), pos_(true), size_(0)
+    BigInt() : num_(nullptr), pos_(true), size_(0)
     {
     }
 
@@ -18,35 +19,33 @@ public:
 
     BigInt(const BigInt &n);
 
-
     BigInt(BigInt &&n);
 
-    BigInt &operator =(const BigInt &n);
+    BigInt &operator=(const BigInt &n);
 
-    BigInt &operator =(BigInt &&n);
+    BigInt &operator=(BigInt &&n);
 
-    bool operator >(const BigInt &rhs) const;
+    bool operator>(const BigInt &rhs) const;
 
-    bool operator <(const BigInt &rhs) const;
+    bool operator<(const BigInt &rhs) const;
 
-    bool operator >=(const BigInt &rhs) const;
+    bool operator>=(const BigInt &rhs) const;
 
-    bool operator <=(const BigInt &rhs) const;
+    bool operator<=(const BigInt &rhs) const;
 
-    bool operator ==(const BigInt &rhs) const;
+    bool operator==(const BigInt &rhs) const;
 
-    bool operator !=(const BigInt &rhs) const;
+    bool operator!=(const BigInt &rhs) const;
 
-    BigInt operator -() const;
+    BigInt operator-() const;
 
-    BigInt operator +(const BigInt &rhs) const;
+    BigInt operator+(const BigInt &rhs) const;
 
-    BigInt operator -(const BigInt &rhs) const;
+    BigInt operator-(const BigInt &rhs) const;
 
-    BigInt operator *(const BigInt &rhs) const;
+    BigInt operator*(const BigInt &rhs) const;
 
     ~BigInt();
 
-    friend std::ostream &operator <<(std::ostream &os, const BigInt &n);
+    friend std::ostream &operator<<(std::ostream &os, const BigInt &n);
 };
-
