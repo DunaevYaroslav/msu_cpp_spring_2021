@@ -1,5 +1,6 @@
 #include "serializer.h"
 #include <cassert>
+#include <iostream>
 struct Data
 {
     uint64_t a;
@@ -74,5 +75,5 @@ void Test2(){
 int main() {
     Test1();
     Test2();
-    return 0;
+    std::cout << "Success\n";
 }
