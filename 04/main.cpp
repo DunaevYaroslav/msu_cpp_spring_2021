@@ -94,6 +94,38 @@ void Test10()
     N3 = std::move(N2);
     assert(N4 == N3);
 }
+void Test11()
+{
+    BigInt N1("182932829848393823041577457747547754");
+    BigInt N2("366463672723823919757655560929389858");
+    BigInt N3;
+    N3 = N1 + N2;
+    assert(N3 == BigInt("182932829848393823041577457747547754") + BigInt("366463672723823919757655560929389858"));
+}
+void Test12()
+{
+    BigInt N1 = -4321;
+    BigInt N2 = 4321;
+    BigInt N3;
+    N3 = N1 + N2;
+    assert(N3 == 0);
+}
+void Test13()
+{
+    BigInt N1 = 0;
+    BigInt N2 = 2;
+    BigInt N3;
+    N3 = N1 * N2;
+    assert(N3 == 0);
+}
+void Test14()
+{
+    BigInt N1 = BigInt("-5000000000");
+    BigInt N2 = BigInt("20000000000");
+    BigInt N3;
+    N3 = N1 * N2;
+    assert(N3 == BigInt("-5000000000") * BigInt("20000000000"));
+}
 int main()
 {
     Test1();
@@ -106,6 +138,10 @@ int main()
     Test8();
     Test9();
     Test10();
+    Test11();
+    Test12();
+    Test13();
+    Test14();
     std::cout << "Success \n";
     return 0;
 }
