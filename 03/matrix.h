@@ -1,3 +1,4 @@
+#pragma once
 class Row
 {
     size_t columns_;

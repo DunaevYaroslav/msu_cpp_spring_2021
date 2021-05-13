@@ -111,6 +111,70 @@ void Test10(){
     }
     assert(b);
 }
+
+void Test11()
+{
+    const size_t rows = 5;
+    const size_t cols = 3;
+    bool flag = false;
+    Matrix m(rows, cols);
+    try 
+    {
+        m[0][7] = 100;
+    }
+    catch (...)
+    {
+        flag = true;
+    }
+    assert(flag);
+    flag = false;
+    try 
+    {
+        m[7][0] = 100;
+    }
+    catch (...)
+    {
+        flag = true;
+    }
+    assert(flag);
+}
+void Test12()
+{
+    const size_t rows = 3;
+    const size_t cols = 4;
+
+    Matrix m(rows, cols);
+    m[0][1] = 1; 
+    m[0][2] = 2;
+    m[0][3] = 3;
+    m[1][1] = 4; 
+    m[1][2] = 5;
+    m[1][3] = 6;
+    assert(m[0][1] == 1);
+    assert(m[0][2] == 2);
+    assert(m[0][3] == 3);
+    Matrix t(rows, cols);
+    t[0][1] = 10; 
+    t[0][2] = 20;
+    t[0][3] = 30;
+    t[1][1] = 40; 
+    t[1][2] = 50;
+    t[1][3] = 60;
+    m = m + t;
+
+    assert(m[0][1] == 11);
+    assert(m[0][2] == 22);
+    assert(m[0][3] == 33);
+
+    m *= 2;
+
+    assert(m[0][1] == 22);
+    assert(m[0][2] == 44);
+    assert(m[0][3] == 66);
+
+}
+
+
 int main() {
     Test1();
     Test2();
@@ -122,6 +186,8 @@ int main() {
     Test8();
     Test9();
     Test10();
+    Test11();
+    Test12();
     std::cout<<"Success";
     return 0;
 }
