@@ -14,6 +14,26 @@ struct Data
     }
 };
 
+struct Err
+{
+    bool a;
+    uint64_t b;
+    uint64_t c;
+    uint64_t d;
+
+    template <class Serializer>
+    Error serialize(Serializer& serializer)
+    {
+        return serializer(a, b, c);
+    }
+    
+    template <class Deserializer>
+    Error deserialize(Deserializer& deserializer)
+    {
+        return deserializer(a, b, c);
+    }
+};
+
 void Test1()
 {
     Data a {56, false, 78};
@@ -71,9 +91,60 @@ void Test2(){
     assert(a.b == true);
     assert(a.c == 18);
 }
+void Test3()
+{
+    Data x {false, true, 111};
+    
+    std::stringstream stream;
+    Deserializer deserializer(stream);
+    
+    assert(deserializer.load(x) == Error::CorruptedArchive);
+}
+void Test4()
+{
+    Data x {false, true, 123};
+    Data y {false, false, 0};
+    
+    std::stringstream stream;
+    Serializer serializer(stream);
+    Deserializer deserializer(stream);
+    
+    assert(serializer.save(x)   == Error::NoError);
+    assert(deserializer.load(y) == Error::NoError);
+    assert(x.a == y.a);
+    assert(x.b == y.b);
+    assert(x.c == y.c);
+}
+void Test5()
+{
+    Data x {false, true, 123};
+    
+    std::stringstream stream;
+    Serializer serializer(stream);
+    
+    assert(serializer.save(x) == Error::NoError);
+}
+
+void Test6()
+{
+    Data x {false, true, 123};
+    Err y {false, 0, 0, 14};
+    
+    std::stringstream stream;
+    Serializer serializer(stream);
+    Deserializer deserializer(stream);
+    
+    assert(serializer.save(x)   == Error::NoError);
+    assert(deserializer.load(y) == Error::CorruptedArchive);
+}
+
 
 int main() {
     Test1();
     Test2();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
     std::cout << "Success\n";
 }

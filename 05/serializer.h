@@ -1,5 +1,8 @@
 #include <sstream>
+#ifndef HW5_SERIALIZER_H
+#define HW5_SERIALIZER_H
 
+#endif //HW5_SERIALIZER_H
 enum Error
 {
     NoError,
@@ -11,18 +14,6 @@ class Serializer
 private:
     std::ostream &out_;
     char sep_ = ' ';
-
-public:
-    explicit Serializer(std::ostream &out): out_(out)
-    {
-    }
-
-    template <class T>
-    Error save(T& object)
-    {
-        return object.serialize(*this);
-    }
-
     Error process(bool elem)
     {
         if (elem) {
@@ -43,6 +34,16 @@ public:
     Error process()
     {
         return Error::CorruptedArchive;
+    }
+public:
+    explicit Serializer(std::ostream &out): out_(out)
+    {
+    }
+
+    template <class T>
+    Error save(T& object)
+    {
+        return object.serialize(*this);
     }
 
     template <typename T>
