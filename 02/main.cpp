@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iostream>
 #include <string>
+
 int start()
 {
     return 5;
@@ -28,7 +29,7 @@ std::string end()
     return "Goodbye!";
 }
 
-void Test1()
+void TestSimpleWork1()
 {
     TokenParser p;
     p.SetStartCallback(start);
@@ -38,7 +39,7 @@ void Test1()
     assert(p.Parse("123 1day ifu 7 nee6rv") == "6 4 3 7 6 ");
 }
 
-void Test2()
+void TestSimpleWork2()
 {
     TokenParser p1;
     p1.SetStartCallback(start);
@@ -48,13 +49,13 @@ void Test2()
     assert(p1.Parse("fuh 48 djf6 55h 8") == "3 12 4 3 8 ");
 }
 
-void Test3()
+void TestOnlyString()
 {
     TokenParser p2;
     std::string stringTest = "Text";
     assert(p2.Parse(stringTest) == "Text");
 }
-void Test4()
+void TestOneSymbol()
 {
     TokenParser p3;
     p3.SetStartCallback(start);
@@ -62,8 +63,10 @@ void Test4()
     p3.SetStringTokenCallback(len);
     p3.SetEndCallback(end);
     assert(p3.Parse("1") == "1 ");
+    assert(p3.Parse("a") == "1 ");
+    assert(p3.Parse(" ") == "");
 }
-void Test5()
+void TestTwoParse()
 {
     TokenParser p4;
     p4.SetStartCallback(start);
@@ -73,13 +76,37 @@ void Test5()
     assert(p4.Parse("123 1day ifu 7 nee6rv") == "6 4 3 7 6 ");
     assert(p4.Parse("fuh 48 djf6 55h 8") == "3 12 4 3 8 ");
 }
+void TestBoundary()
+{
+    TokenParser p5;
+    p5.SetStartCallback(start);
+    p5.SetDigitTokenCallback(sum);
+    p5.SetStringTokenCallback(len);
+    p5.SetEndCallback(end);
+    assert(p5.Parse("18446744073709551615") == "87 ");//это 2^64 - 1
+    assert(p5.Parse("18446744073709551616") == "20 ");//это 2^64 
+    assert(p5.Parse("18446744073709551616842394") == "26 ");
+}
+void TestEmpty()
+{
+    TokenParser p6;
+    p6.SetStartCallback(start);
+    p6.SetDigitTokenCallback(sum);
+    p6.SetStringTokenCallback(len);
+    p6.SetEndCallback(end);
+    std::string stringTest = "";
+    assert(p6.Parse(stringTest) == "");
+}
+
 int main()
 {
-    Test1();
-    Test2();
-    Test3();
-    Test4();
-    Test5();
+    TestSimpleWork1();
+    TestSimpleWork2();
+    TestOnlyString();
+    TestOneSymbol();
+    TestTwoParse();
+    TestBoundary();
+    TestEmpty();
     std::cout << "Success \n";
     return 0;
 }
