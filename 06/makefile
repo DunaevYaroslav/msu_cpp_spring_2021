@@ -13,5 +13,6 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 clean: 
 	rm -f *.o $(EXECUTABLE)
-test:
-	./$(EXECUTABLE)
+test: main.o 
+	$(CC) $(FLAGS) main.o -o test
+	./test
