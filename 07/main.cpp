@@ -1,86 +1,103 @@
 #include <iostream>
 
-#include "threadpool.h"
+#include "vector.h"
 
-struct A
+void Test1()
 {
-};
+    Vector<int> v1(5, 5);
+    assert(v1.size() == 5);
+    assert(v1.capacity() == 5);
 
-void foo(const A &) {}
-
-int f(int a)
-{
-    return 5 * a - 3;
-}
-
-std::string f1(const std::string &s)
-{
-    return s + " c++";
-}
-
-int f2(int a, int b, int c)
-{
-    return a + b + c;
-}
-
-void SimpleTest()
-{
-    ThreadPool pool(8);
-
-    auto task1 = pool.exec(foo, A());
-    task1.get();
-
-    auto task2 = pool.exec([]()
-                           { return 1; });
-    task2.get();
-
-    auto task3 = pool.exec(f, 5);
-    assert(task3.get() == 22);
-
-    auto task4 = pool.exec(f1, "It's");
-    assert(task4.get() == "It's c++");
-
-    for (int i = 1; i <= 10; i++)
+    for (int i = 0; i < 10; i++)
     {
-        auto task = pool.exec(f2, i, 1, 1);
-        assert(task.get() == i + 2);
+        v1.push_back(i + 6);
     }
+    assert(v1[5] == 6);
+    assert(v1[10] == 11);
+
+    v1.clear();
+    assert(v1.empty());
 }
 
-int f3(const int i)
+void Test2()
 {
-    return i;
+    Vector<std::string> v2 = {"Ufa", "is", "the", "capital", "of"};
+    v2.emplace_back("Bashkortostan");
+    v2.emplace_back("republic.");
+    assert(v2[6] == "republic.");
 }
-
-void Vector()
+void Test3()
 {
-    std::vector<int> vec;
-    ThreadPool pool(2);
+    Vector<std::string> v2 = {"Ufa", "is", "the", "capital", "of"};
+    v2.emplace_back("Bashkortostan");
+    v2.emplace_back("republic.");
+    Vector<std::string> v3 = v2;
+    v3.emplace_back("Moscow");
+    v3.emplace_back("is");
+    v3.pop_back();
+    v3.pop_back();
+    assert(v3.size() == v2.size());
+    assert(*(v3.end() - 2) == "Bashkortostan");
+    assert(v3.begin() < v3.end());
+    assert(*(v3.rend() - 1) == "Ufa");
+}
+void Test4()
+{
+    Vector<int> v4{1, 2, 3, 4, 5};
+    v4.resize(2, 1);
+    assert(v4.size() == 2);
+    v4.resize(10, 1);
+    assert(v4[9] == 1);
+    assert(v4.size() == 10);
+    v4.reserve(30);
+    assert(v4.capacity() == 30);
+}
+void Test5()
+{
+    Vector<int> v5;
+    for (int i = 10; i < 20; i++)
+    {
+        v5.push_back(i);
+    }
+    for (auto it = v5.begin(); it < v5.end(); it++)
+    {
+        assert(*it == (it - v5.begin() + 10));
+    }
     for (int i = 0; i < 5; i++)
     {
-        auto task = pool.exec(f3, i);
-        vec.push_back(task.get());
+        v5.pop_back();
     }
-    std::vector res({0, 1, 2, 3, 4});
-    for (size_t i = 0; i < res.size(); i++)
-        assert(vec[i] == res[i]);
+    assert(v5.capacity() == 10);
+    assert(v5.size() == 5);
 }
-
-void OnlyOneThread()
+void Test6()
 {
-    ThreadPool pool(1);
-    std::vector<int> vec;
-    for (int i = 0; i < 100; i++)
-        vec.push_back(i);
-    for (int i = 0; i < 100; i++)
-        assert(vec[i] == i);
+    Vector<int> v5;
+    for (int i = 10; i < 20; i++)
+    {
+        v5.push_back(i);
+    }
+    for (auto it = v5.begin(); it < v5.end(); it++)
+    {
+        assert(*it == (it - v5.begin() + 10));
+    }
+    for (int i = 0; i < 5; i++)
+    {
+        v5.pop_back();
+    }
+    Vector<int> v6 = Vector({1, 2, 3, 7, 8});
+    Vector<int> v7(v5);
+    assert(v6.capacity() == 5);
+    assert(v7.size() == v5.size());
 }
-
 int main()
 {
-    SimpleTest();
-    Vector();
-    OnlyOneThread();
+    Test1();
+    Test2();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
     std::cout << "Success";
     return 0;
 }
