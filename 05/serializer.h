@@ -1,8 +1,6 @@
+#pragma once
 #include <sstream>
-#ifndef HW5_SERIALIZER_H
-#define HW5_SERIALIZER_H
 
-#endif //HW5_SERIALIZER_H
 enum Error
 {
     NoError,
