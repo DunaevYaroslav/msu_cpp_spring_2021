@@ -81,5 +81,6 @@ int main()
     SimpleTest();
     Vector();
     OnlyOneThread();
+    std::cout << "Success";
     return 0;
 }
